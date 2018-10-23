@@ -97,7 +97,7 @@ for i in range(1):
     
 toexclude = ['ExcludeVar1', 'ExcludeVar2']
 
-with Dataset(IMERGFileList[0], mode='r') as src, Dataset('/home/ho0man/Desktop/Win - Desktop/Jason PPT/Data/MRMS/NC-Regridded/'+FileNames[0]+'regrrided.nc','w', format='NETCDF4', 'w') as dst:
+with Dataset(IMERGFileList[0], mode='r') as src, Dataset('/home/ho0man/Mygit/out.nc','w', format='NETCDF4') as dst:
     # copy global attributes all at once via dictionary
     dst.setncatts(src.__dict__)
     # copy dimensions
@@ -109,6 +109,7 @@ with Dataset(IMERGFileList[0], mode='r') as src, Dataset('/home/ho0man/Desktop/W
         if name not in toexclude:
             x = dst.createVariable(name, variable.datatype, variable.dimensions)
             dst[name][:] = src[name][:]
+    dst.variables['precipitationCal'][:]=np.transpose(sst_coarse)
             # copy variable attributes all at once via dictionary
 #            dst[name].setncatts(src[name].__dict__)
 
